@@ -8,7 +8,7 @@ import FluentUI 1.0
 FluWindow{
     id: chatPage
     width: 800
-    height: 650
+    height: 850
     title: qsTr("聊天")
 
     FluRectangle{ // 顶部条
@@ -17,6 +17,7 @@ FluWindow{
         height: 70
         color: "#F0F0F0"
 
+
         FluIconButton{
             id: backBtn
             iconSource:FluentIcons.Back
@@ -24,10 +25,8 @@ FluWindow{
             anchors.leftMargin: 15
             anchors.verticalCenter: parent.verticalCenter
             onClicked: {
-                var component = Qt.createComponent("MainPage.qml");
-                var win = component.createObject();
-                win.show();
-                chatPage.visible = false;
+                //chatPageLoader.source = "MainPage.qml"
+                chatPage.visible = false
             }
         }
 
@@ -64,9 +63,9 @@ FluWindow{
                     text:"查看群名片"
 
                     onClicked: {
-                        var component = Qt.createComponent("GroupInfoPage.qml");
-                        var win = component.createObject();
-                        win.show();
+                         var component = Qt.createComponent("GroupInfoPage.qml");
+                         var win = component.createObject();
+                         win.show();
                     }
                 },
                 FluMenuItem{
@@ -130,13 +129,13 @@ FluWindow{
     FluRectangle { // 聊天记录区
         id: chatMsgArea
         width: parent.width
-        height: 350
+        height: 550
         anchors.top: topRtg.bottom
 
         ScrollView{
             id: chatMsgScrView
             width: parent.width
-            height: 350
+            height: 550
 
             ListView{
                 id: chatMsgList
@@ -151,13 +150,12 @@ FluWindow{
                         width: parent.width
                         height: {
                             if(chatMsgText.height <= 25){
-                                60
+                                80
                             }
                             else{
-                                chatMsgText.height + 40
+                                chatMsgText.height + 60
                             }
                         }
-                        color: "#F0F0F0"
                         visible: !model.self
 
                         Text { // 用户名
@@ -189,18 +187,27 @@ FluWindow{
                             }
                         }
 
-                        FluCopyableText { // 消息
-                            id: chatMsgText
-                            text: model.message
-                            width: {
-                                if(chatMsgText2.width >= 380) {380}
-                            }
-                            wrapMode: Text.WrapAnywhere
-                            font.pixelSize: 18
+                        Rectangle{
+                            width: chatMsgText.width + 20
+                            height: chatMsgText.height + 20
+                            radius: 8
+                            color: "#F0F0F0"
                             anchors.left: chatProfilePic.right
                             anchors.leftMargin: 15
                             anchors.top: parent.top
                             anchors.topMargin: 30
+
+                            FluCopyableText { // 消息
+                                id: chatMsgText
+                                text: model.message
+                                width: {
+                                    if(chatMsgText2.width >= 380) {380}
+                                }
+                                wrapMode: Text.WrapAnywhere
+                                font.pixelSize: 18
+                                anchors.verticalCenter: parent.verticalCenter
+                                anchors.horizontalCenter: parent.horizontalCenter
+                            }
                         }
                     }
 
@@ -208,13 +215,12 @@ FluWindow{
                         width: parent.width
                         height: {
                             if(chatMsgText2.height <= 25){
-                                60
+                                80
                             }
                             else{
-                                chatMsgText2.height + 40
+                                chatMsgText2.height + 60
                             }
                         }
-                        color: "#4CDF01"
                         visible: model.self
 
                         Text { // 用户名
@@ -246,18 +252,27 @@ FluWindow{
                             }
                         }
 
-                        FluCopyableText { // 消息
-                            id: chatMsgText2
-                            text: model.message
-                            width: {
-                                if(chatMsgText2.width >= 380) {380}
-                            }
-                            wrapMode: Text.WrapAtWordBoundaryOrAnywhere
-                            font.pixelSize: 18
+                        Rectangle{
+                            width: chatMsgText2.width + 20
+                            height: chatMsgText2.height + 20
+                            radius: 8
+                            color: "#4CFD01"
                             anchors.right: chatProfilePicSelf.left
-                            anchors.rightMargin: 6
+                            anchors.rightMargin: 15
                             anchors.top: parent.top
                             anchors.topMargin: 30
+
+                            FluCopyableText { // 消息
+                                id: chatMsgText2
+                                text: model.message
+                                width: {
+                                    if(chatMsgText2.width >= 380) {380}
+                                }
+                                wrapMode: Text.WrapAtWordBoundaryOrAnywhere
+                                font.pixelSize: 18
+                                anchors.verticalCenter: parent.verticalCenter
+                                anchors.horizontalCenter: parent.horizontalCenter
+                            }
                         }
                     }
                 }
